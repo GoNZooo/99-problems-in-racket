@@ -96,11 +96,11 @@
 (define/tc (compress lst)
   (list? . -> . list?)
   ([('(a a a a b c c a a d e e e)) '(a b c a d e)])
-  
+
   (match lst
-    ['() '()]
-    [(list a a b ...) (compress (cons a b))]
-    [(list a b ...) (cons a (compress b))]))
+	['() '()]
+	[(list a a b ...) (compress (cons a b))]
+	[(list a b ...) (cons a (compress b))]))
 
 ;; P09 (**) Pack consecutive duplicates of list elements into sublists.
 ;; If a list contains repeated elements they should be placed in separate sublists.
@@ -112,22 +112,22 @@
   ([('(a a a a b c c a a d e e e e)) '((a a a a) (b) (c c) (a a) (d) (e e e e))])
 
   (define (inner-pack lst [current-value (car lst)] [current-set `(,(car lst))] [output '()])
-    (match lst
-      ['() (reverse (cons current-set output))]
-      [(list a b ...)
-       #:when (equal? a current-value)
-       (inner-pack b 
-		   current-value
-		   (cons a current-set)
-		   output)]
-      [(list a b ...)
-       (inner-pack b
-		   a
-		   (list a)
-		   (cons current-set output))]))
+	(match lst
+	  ['() (reverse (cons current-set output))]
+	  [(list a b ...)
+	   #:when (equal? a current-value)
+	   (inner-pack b 
+				   current-value
+				   (cons a current-set)
+				   output)]
+	  [(list a b ...)
+	   (inner-pack b
+				   a
+				   (list a)
+				   (cons current-set output))]))
   (if (null? lst)
-    '()
-    (inner-pack (cdr lst)))) 
+	'()
+	(inner-pack (cdr lst)))) 
 
 ;; P10 (*) Run-length encoding of a list.
 ;; Use the result of problem P09 to implement the so-called run-length encoding data compression method. Consecutive duplicates of elements are encoded as lists (N E) where N is the number of duplicates of the element E.
